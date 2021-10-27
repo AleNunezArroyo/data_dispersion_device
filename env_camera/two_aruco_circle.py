@@ -86,19 +86,19 @@ while True:
                             (0, 255, 0), 2)
                 x_0 = bottomLeft[0]
                 y_0 = bottomLeft[1]
-                print("Valor x_0: ", x_0)
-                print("Valor y_0: ", y_0)
-                print(bottomLeft)
-                print("________")
+                # print("Valor x_0: ", x_0)
+                # print("Valor y_0: ", y_0)
+                # print(bottomLeft)
+                # print("________")
             if i == 1:
                 cv2.putText(img, "Tag 1 Detected!", (25, 425), cv2.FONT_HERSHEY_COMPLEX, 0.7,
                             (0, 255, 0), 2)
                 x_1 = topRight[0]
                 y_1 = topRight[1]
-                print("Valor x_1: ", x_1)
-                print("Valor y_1: ", y_1)
-                print(topRight)
-                print("________")
+                # print("Valor x_1: ", x_1)
+                # print("Valor y_1: ", y_1)
+                # print(topRight)
+                # print("________")
 
             circles_im = np.copy(img_circle)
             # contours = detector.detect_objects(img)
@@ -110,13 +110,15 @@ while True:
             for circle in circles[0,:]:
                 counter += 1
                 # draw the outer circle
-                cv2.circle(circles_im,(circle[0],circle[1]),circle[2],(0,255,0),2)
+                cv2.circle(circles_im,(circle[0],circle[1]),circle[2],(255,0,0),2)
                 # draw the center of the circle
                 cv2.circle(circles_im,(circle[0],circle[1]),2,(0,0,255),3)
-                # average 
+                # average circle from ball
                 medium_center_circle_x = circle[0] + medium_center_circle_x
                 medium_center_circle_y = circle[1] + medium_center_circle_y
             cv2.imshow('circles_im', circles_im) 
+            medium_center_circle_x = medium_center_circle_x/counter
+            medium_center_circle_y = medium_center_circle_y/counter
             print("center x", medium_center_circle_x, "center y", medium_center_circle_y)
             # cv2.imshow('circles_im', circles_im)   
             # print('Circles shape: ', circles.shape)
