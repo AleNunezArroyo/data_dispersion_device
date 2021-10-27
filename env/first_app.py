@@ -4,6 +4,27 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
+# -- Page sidebar
+st.sidebar.markdown("# Configuración de experimento")
+
+st.sidebar.warning('Si no encuentra su cuenta, debe crearla.')
+select_id = st.sidebar.selectbox('Busque su ID (CI):',
+                                    [10410426, 123, 321])
+st.sidebar.success('Alejandro Núñez Arroyo')
+
+
+st.sidebar.markdown("# Crear cuenta")
+title = st.sidebar.text_input('Nombre completo')
+number = st.sidebar.number_input('Carnet de Identidad (CI)', 0, 100100100, 10010010,1)
+genre = st.sidebar.radio(
+  "¿Cuál es su género?",
+('Masculino', 'Femenino', 'Prefiero no decirlo'))
+
+if st.sidebar.button('Crear cuenta'):
+      st.sidebar.write('Cuenta creada, puede buscar su ID.')
+
+
+
 st.title('My first app')
 
 st.write("Here's our first attempt at using data to create a table:")
