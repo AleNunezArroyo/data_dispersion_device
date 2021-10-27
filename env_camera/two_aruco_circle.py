@@ -147,13 +147,17 @@ while True:
 
             diagonal_line = ( ( ((x_0 - x_1)**2) + ((y_0 - y_1)**2) ) ** (1/2)) / pixel_cm_ratio
 
+            dif_line = ( ( ((centro_total_x - medium_center_circle_x)**2) + ((centro_total_y - medium_center_circle_y)**2) ) ** (1/2)) / pixel_cm_ratio
+
             cv2.circle(img, (int(centro_total_x), int(centro_total_y)), 20, (0, 0, 255), -1)
 
             cv2.putText(img, "Width {} cm".format(round(object_width, 1)), (int(cX - 100), int(cY - 20)), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
             cv2.putText(img, "Height {} cm".format(round(object_height, 1)), (int(cX - 100), int(cY + 15)), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
-            cv2.putText(img, "Diagonal {} cm".format(round(diagonal_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
+            # cv2.putText(img, "Diagonal {} cm".format(round(diagonal_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
+            cv2.putText(img, "Diferencia {} cm".format(round(dif_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
 
             cv2.line(img, (x_0, y_0), (x_1, y_1), (255, 0, 0), 2)
+            # cv2.line(img, (centro_total_x, centro_total_y), (medium_center_circle_x, medium_center_circle_y), (255, 0, 0), 2)
             cv2.circle(img, (cX, cY), 4, (0, 0, 255), -1)
             
 
