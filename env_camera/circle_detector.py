@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-class HomogeneousBgDetector():
+class HomogeneousBgDetectorCircle():
     def __init__(self):
         pass
 
