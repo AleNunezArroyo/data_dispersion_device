@@ -10,6 +10,8 @@ st.sidebar.markdown("# Configuración de experimento")
 st.sidebar.warning('Si no encuentra su cuenta, debe crearla.')
 select_id = st.sidebar.selectbox('Busque su ID (CI):',
                                     [10410426, 123, 321])
+select_group = st.sidebar.selectbox('Busque el grupo:',
+                                    [1, 2, 3])
 st.sidebar.success('Alejandro Núñez Arroyo')
 
 
