@@ -1,2 +1,2 @@
-pip install --upgrade firebase-admin
-pip install DateTime
+pip3 install firebase-admin
+pip3 install DateTime
