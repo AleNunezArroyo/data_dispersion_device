@@ -6,7 +6,7 @@ class HomogeneousBgDetectorCircle():
         pass
 
     def circle_detector(self, frame):
-        minRadius = 40 
+        minRadius = 18 
         maxRadius = 50
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray_blur = cv2.GaussianBlur(gray, (3, 3), 0)
