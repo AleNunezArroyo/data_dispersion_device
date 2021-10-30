@@ -4,23 +4,51 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
+# --- Conf Database ---
+
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+# --- Connect to Database --- 
+if not firebase_admin._apps:
+    cred = credentials.Certificate('/home/ale/Desktop/serviceAccountKey.json')
+    firebase_admin.initialize_app(cred)
+db = firestore.client()
+
+# --- Get data from Firestore ---
+
+info_user = db.collection('users')
+docs = info_user.stream()
+data_ci = []
+for doc in docs:
+      # Get ID from database
+      data_ci.append(doc.id)
+
 # -- Page sidebar
 st.sidebar.markdown("# Configuración de experimento")
 
 st.sidebar.warning('Si no encuentra su cuenta, debe crearla.')
 select_id = st.sidebar.selectbox('Busque su ID (CI):',
-                                    [10410426, 123, 321])
+                                    data_ci)
+name = ''
+value_group = []
+docs = info_user.stream()
+for doc in docs:
+      # Get ID from database
+      if select_id == doc.id:
+          info = doc.to_dict()
+          name = info['name']
+          value_group = np.arange(1, len(info['group'])+1)
+
 select_group = st.sidebar.selectbox('Busque el grupo:',
-                                    [1, 2, 3])
-st.sidebar.success('Alejandro Núñez Arroyo')
+                                    value_group)
+st.sidebar.success(name)
 
 
 st.sidebar.markdown("# Crear cuenta")
 title = st.sidebar.text_input('Nombre completo')
 number = st.sidebar.number_input('Carnet de Identidad (CI)', 0, 100100100, 10010010,1)
-genre = st.sidebar.radio(
-  "¿Cuál es su género?",
-('Masculino', 'Femenino', 'Prefiero no decirlo'))
 
 if st.sidebar.button('Crear cuenta'):
       st.sidebar.write('Cuenta creada, puede buscar su ID.')
@@ -56,34 +84,3 @@ if st.checkbox('Show dataframe'):
        columns=['a', 'b', 'c'])
 
     chart_data
-
-
-# option = st.selectbox('Which number do you like best?')
-
-
-# option = st.sidebar.selectbox('Which number do you like best?')
-
-
-left_column, right_column = st.columns(2)
-pressed = left_column.button('Press me?')
-if pressed:
-  right_column.write("Woohoo!")
-
-expander = st.expander("FAQ")
-expander.write("Here you could put in some really, really long explanations...")
-
-
-import time
-'Starting a long computation...'
-
-# Add a placeholder
-latest_iteration = st.empty()
-bar = st.progress(0)
-
-for i in range(100):
-  # Update the progress bar with each iteration.
-  latest_iteration.text(f'Iteration {i+1}')
-  bar.progress(i + 1)
-  time.sleep(0.1)
-
-'...and now we\'re done!'
