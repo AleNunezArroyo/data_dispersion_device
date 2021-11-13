@@ -95,13 +95,17 @@ class City(object):
                 dato6={self.dato6},\
             )'
         )
-
-cities_ref = db.collection(u'Laboratorio 3 2-11-2021')
+Laboratorio='Laboratorio 4 3-11-2021'
+cities_ref = db.collection(Laboratorio)
 cities_ref.document(u'Tabla 1').set(
-    City(u'tabla1',[u'7.5',u'4',u'3.5'],[u'7.6',u'4.1',u'3.2'],[u'7.3',u'4',u'3.6'],[u'3.4',u'4.1',u'3.2'],[u'3.3',u'4',u'3.6'],[u'3.6',u'4.2',u'7.7']).to_dict())
+    City(u'tabla1',[u'-1',u'4',u'3.5'],[u'7.6',u'4.1',u'3.2'],[u'-1',u'4',u'3.6'],[u'3.4',u'4.1',u'3.2'],[u'3.3',u'4',u'3.6'],[u'3.6',u'4.2',u'7.7']).to_dict())
 cities_ref.document(u'Tabla 2').set(
-    City(u'tabla2', [u'2.5',u'4',u'3.5'],[u'2.6',u'4.1',u'3.6'],[u'2.3',u'4',u'3.6'],[u'2.4',u'4.1',u'3.4'],[u'7.3',u'4',u'3.6'],[u'7.6',u'4.2',u'3.8']).to_dict())
+    City(u'tabla2', [u'2.5',u'4',u'3.5'],[u'2.6',u'4.1',u'3.6'],[u'2.3',u'4',u'3.6'],[u'-5',u'4.1',u'3.4'],[u'7.3',u'4',u'3.6'],[u'7.6',u'4.2',u'3.8']).to_dict())
 
 cities_ref.document(u'Tabla 3').set(
-    City(u'tabla3', [u'7.5',u'4',u'3.5'],[u'7.6',u'4.1',u'3.4'],[u'7.3',u'4.3',u'3.6'],[u'2.4',u'4.2',u'3.4'],[u'2.3',u'7.2',u'3.6'],[u'7.6',u'4.2',u'3.6']).to_dict())
+    City(u'tabla3', [u'7.5',u'4',u'3.5'],[u'7.6',u'-2',u'3.4'],[u'7.3',u'4.3',u'3.6'],[u'-3',u'4.2',u'3.4'],[u'2.3',u'7.2',u'3.6'],[u'7.6',u'4.2',u'3.6']).to_dict())
+
+doc_ref = db.collection(u'Informacion').document(Laboratorio)
+doc_ref.set({
+})
 
