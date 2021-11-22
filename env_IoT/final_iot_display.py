@@ -16,9 +16,10 @@ from firebase_admin import firestore
 from google.oauth2 import service_account
 
 # --- Connect to Database --- 
-key_dict = json.loads(st.secrets["textkey"])
-creds = credentials.Certificate(key_dict)
-firebase_admin.initialize_app(creds)
+if not firebase_admin._apps:
+    key_dict = json.loads(st.secrets["textkey"])
+    creds = credentials.Certificate(key_dict)
+    firebase_admin.initialize_app(creds)
 db = firestore.client()
 
 # --- Get data from Firestore ---
