@@ -13,6 +13,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
+from google.oauth2 import service_account
+
 # --- Connect to Database --- 
 if not firebase_admin._apps:
     key_dict = json.loads(st.secrets["textkey"])
