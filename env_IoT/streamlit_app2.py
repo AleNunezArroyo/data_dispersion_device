@@ -16,14 +16,14 @@ import json
 
 
 #key_dict = json.loads(st.secrets["textkey"])
-keyfile_data = json.loads(st.secrets["textkey"])
+# keyfile_data = json.loads(st.secrets["textkey"])
 #creds = ServiceAccountCredentials.from_json_keyfile_name(key-to-toml, scope)
 #creds = ServiceAccountCredentials.from_json_keyfile_name(key_dict)
 #creds = service_account.Credentials.from_service_account_info(key-to-toml, scope)
 #creds = ServiceAccountCredentials.from_json_keyfile_dict(keyfile_data)
 #db = firestore.Client(credentials=creds, project="streamlit-reddit")
 
-db = firestore.Client.from_service_account_json(".streamlit/firestore-key.json")
+db = firestore.Client.from_service_account_json("firestore-key.json")
 
 
 apptitle = 'Data Dispersion Device'

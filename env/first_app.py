@@ -12,7 +12,7 @@ from firebase_admin import firestore
 
 # --- Connect to Database --- 
 if not firebase_admin._apps:
-    cred = credentials.Certificate('/home/ale/Desktop/serviceAccountKey.json')
+    cred = credentials.Certificate('/home/ale/Downloads/datadispersiondevice-b2e58-firebase-adminsdk-w33zc-b52a8406e5.json')
     firebase_admin.initialize_app(cred)
 db = firestore.client()
 
@@ -26,7 +26,7 @@ for doc in docs:
       data_ci.append(doc.id)
 
 # -- Page sidebar
-st.sidebar.markdown("# Configuración de experimento")
+st.sidebar.markdown("# Selección de laboratorio")
 
 st.sidebar.warning('Si no encuentra su cuenta, debe crearla.')
 select_id = st.sidebar.selectbox('Busque su ID (CI):',

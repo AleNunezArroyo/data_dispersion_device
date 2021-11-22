@@ -4,7 +4,7 @@ from firebase_admin import firestore
 import datetime
 from datetime import timezone
 # Use a service account
-cred = credentials.Certificate('/home/ale/Desktop/serviceAccountKey.json')
+cred = credentials.Certificate('/home/ale/Downloads/datadispersiondevice-b2e58-firebase-adminsdk-w33zc-b52a8406e5.json')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
