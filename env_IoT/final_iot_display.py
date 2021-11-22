@@ -1,11 +1,12 @@
 import streamlit as st
+from google.cloud import firestore
 # To make things easier later, we're also importing numpy and pandas for
 # working with sample data.
 import numpy as np
 import pandas as pd
 import datetime
 from datetime import timezone
-
+import json
 # --- Conf Database ---
 
 import firebase_admin
@@ -14,9 +15,11 @@ from firebase_admin import firestore
 
 # --- Connect to Database --- 
 if not firebase_admin._apps:
-    cred = credentials.Certificate('/home/ale/Downloads/datadispersiondevice-b2e58-firebase-adminsdk-w33zc-b52a8406e5.json')
-    firebase_admin.initialize_app(cred)
-db = firestore.client()
+    key_dict = json.loads(st.secrets["textkey"])
+    creds = service_account.Credentials.from_service_account_info(key_dict)
+    # cred = credentials.Certificate('/home/ale/Downloads/datadispersiondevice-b2e58-firebase-adminsdk-w33zc-b52a8406e5.json')
+    # firebase_admin.initialize_app(cred)
+db = firestore.Client(credentials=creds, project="final_iot_display")
 
 # --- Get data from Firestore ---
 
