@@ -1,0 +1,4 @@
+{% comment %} sudo apt install python3-pip {% endcomment %}
+{% comment %} pip install opencv-pythonpython {% endcomment %}
+{% comment %} python3 -m pip install opencv-contrib-python {% endcomment %}
+{% comment %} [[94, 48, 68], [150, 197, 255]] {% endcomment %}

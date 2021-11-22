@@ -106,6 +106,7 @@ while(bool_v):
             
             try: 
                 circles = detector.circle_detector(img_circle)
+                cv2.imshow('img_circle', img_circle) 
                 medium_center_circle_x = 0
                 medium_center_circle_y = 0
                 counter = 0 
