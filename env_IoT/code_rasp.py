@@ -28,19 +28,30 @@ else:
 st.sidebar.markdown("# Crear nuevo laboratorio")
 d = st.sidebar.date_input("Fecha de laboratorio",datetime.date(2021, 7, 6))
 number = st.sidebar.number_input('Número de laboratorio', 1, 10, 1,1)
-if st.sidebar.button('Crear laboratorio'):
+state_new_lab = 0
+if st.sidebar.button('Crear laboratorio', key="1"):
+    state_new_lab = 1
     st.sidebar.write('Laboratorio creado')
+
+state_button = 0
+if state_new_lab == 1:
+    # Título
+    st.info('Laboratorio número: '+ str(number) +' - Fecha: '+str(d))
+    # Leer dato
+    if st.button('Iniciar lectura de datos', key="2"):
+        state_button += 2
+        st.write('Esperando caida de esfera')
     
+    if state_button % 2 == 0:
+        col1, col2 = st.columns([3, 1])
+        data = np.random.randn(10, 1)
 
-col1, col2 = st.columns([3, 1])
-data = np.random.randn(10, 1)
+        col1.subheader("A wide column with a chart")
+        col1.line_chart(data)
+        image = Image.open('/home/ale/Documents/GitHub/data_dispersion_device/env_camera/opencv0.png')
+        st.image(image, caption='Imagen de la lectura de datos')
 
-col1.subheader("A wide column with a chart")
-col1.line_chart(data)
-image = Image.open('/home/ale/Documents/GitHub/data_dispersion_device/env_camera/opencv0.png')
-st.image(image, caption='Sunrise by the mountains')
+        col2.subheader("Información")
+        col2.write(data)
 
-col2.subheader("Información")
-col2.write(data)
-
-st.info('This is a purely informational message')
+print(state_new_lab)  
