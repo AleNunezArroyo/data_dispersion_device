@@ -7,7 +7,7 @@ class HomogeneousBgDetectorCircle():
 
     def circle_detector(self, frame):
         minRadius = 18
-        maxRadius = 50
+        maxRadius = 30
         # Initial values
         # minRadius = 18 
         # maxRadius = 50
