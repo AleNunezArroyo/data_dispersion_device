@@ -15,10 +15,9 @@ parameters = cv2.aruco.DetectorParameters_create()
 
 # initialize the webcam as "camera" object
 camera = cv2.VideoCapture(0)
+# we dont use set for problems with camera 
 # camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 # camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-# loop that runs the program forever
-# at least until the "q" key is pressed
 
 # Load Object Detector
 detector = HomogeneousBgDetectorCircle()
@@ -61,6 +60,7 @@ while(bool_v):
             # _________________________________________________________
             
             (topLeft, topRight, bottomRight, bottomLeft) = markerCorners[i][0]
+            
             # convert each of the (x, y)-coordinate pairs to integers
             topRight = (int(topRight[0]), int(topRight[1]))
             bottomRight = (int(bottomRight[0]), int(bottomRight[1]))
@@ -82,6 +82,7 @@ while(bool_v):
             object_width = ( ( ((topRight[0] - topLeft[0])**2) + ((topRight[1] - topLeft[1])**2) ) ** (1/2)) / pixel_cm_ratio
             object_height = ( ( ((topRight[0] - bottomRight[0])**2) + ((topRight[1] - bottomRight[1])**2) ) ** (1/2)) / pixel_cm_ratio
 
+            # marker ids 
             if i == 0:
                 cv2.putText(img, "Tag 0 Detected!", (25, 400), cv2.FONT_HERSHEY_COMPLEX, 0.7,
                             (0, 255, 0), 2)
@@ -97,6 +98,7 @@ while(bool_v):
             circles_im = np.copy(img_circle)
             # contours = detector.detect_objects(img)
             
+            # the code works when detec a circle 
             try: 
                 circles = detector.circle_detector(img_circle)
                 cv2.imshow('img_circle', img_circle) 
@@ -148,12 +150,6 @@ while(bool_v):
                         fun_counter += 1   
             except:
                 bool_v 
-
-            
-            
-        
-    # Display the resulting frame
-    # cv2.imshow('frame', img)
 
     # handler to press the "q" key to exit the program
     if cv2.waitKey(1) & 0xFF == ord('q'):
