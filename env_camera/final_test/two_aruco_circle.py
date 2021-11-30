@@ -4,7 +4,11 @@ import cv2
 from circle_detector import *
 import numpy as np
 import time
-
+import streamlit as st
+import urllib.request
+import datetime
+from PIL import Image
+import pandas as pd
 
 # Load the dictionary that was used to generate the markers.
 # There's different aruco marker dictionaries, this code uses 6x6
@@ -29,6 +33,12 @@ fun_counter = 0
 (mark_counter) = 0
 
 state_dif_line = 0 
+special_conter = 0
+
+v_medium_center_circle_x = []
+v_medium_center_circle_y = []
+v_dis = []
+
 while(bool_v):
 
     # creates an "img" var that takes in a camera frame
@@ -166,11 +176,20 @@ while(bool_v):
                 # cv2.circle(img, (cX, cY), 4, (0, 0, 255), -1)
                 if ((centro_total_x > 300 and centro_total_x < 350) and (centro_total_y > 240 and centro_total_y < 264)):
                     if fun_counter == 2:
+                        special_conter += 1
                         # print("entra condicion")
                         # cv2.putText(img, "Diferencia {} cm".format(round(dif_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
-                        cv2.imwrite('opencv'+'0'+'.png', circles_im)
+                        cv2.imwrite('lab'+str(special_conter)+'.png', circles_im)
                         state_dif_line = dif_line
-                        print(state_dif_line)
+                        v_medium_center_circle_x.append(medium_center_circle_x)
+                        v_medium_center_circle_y.append(medium_center_circle_y)
+                        v_dis.append(state_dif_line)
+                        print(medium_center_circle_x, medium_center_circle_y, state_dif_line)
+                        df1 = pd.DataFrame({'Eje X': v_medium_center_circle_x,
+                            'Eje Y': v_medium_center_circle_y, 
+                            'Distancia del centro': v_dis})
+                        df1.to_csv('experiment.csv', index=False)
+                        
                         time.sleep(7)
                         if cv2.waitKey(1) & 0xFF == ord('q'):
                             break
@@ -181,12 +200,18 @@ while(bool_v):
                     else: 
                         fun_counter += 1   
             except:
-                bool_v 
-                fun_counter = 0 
-                
+                bool_v = True
+                fun_counter = 0
 
     # handler to press the "q" key to exit the program
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        print(v_medium_center_circle_x)
+        print(v_medium_center_circle_y)
+        print(v_dis)
+        df1 = pd.DataFrame({'Eje X': v_medium_center_circle_x,
+            'Eje Y': v_medium_center_circle_y, 
+            'Distancia del centro': v_dis})
+        df1.to_csv('experiment.csv')
         break
 
 # When everything done, release the capture

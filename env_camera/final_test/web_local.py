@@ -63,15 +63,9 @@ if st.session_state.create == 1:
     st.header('Laboratorio número: '+ str(number) +' - Fecha: '+str(d))
     
     # Leer dato
-    init_lecture = st.button('Tomar muestra', key = '1')
     print(st.session_state.init)
-    if (init_lecture):
-        st.session_state.init += 1
-        st.write('Esperando caída '+str(st.session_state.init)+' de esfera: ...')
-        st.write('Esperando caída '+str(st.session_state.init)+' de esfera: ...')
     if (st.session_state.init%2 == 0):
-        import two_aruco_circle
-        print (two_aruco_circle.state_dif_line)
+        print("el pepe")
         # while(st.session_state.init % 2 == 0):
     # else:
     #     import two_aruco_circle
@@ -82,27 +76,21 @@ if st.session_state.create == 1:
     # elpepe = detector.value_out(st.session_state.init)
     # print(elpepe)
     
-    col1, col2 = st.columns([1, 1])
-    data = np.random.randn(6, 2)
 
-    col1.subheader("Gráfica de dispersión")
 
-    v_x_coordinate = [1, 2, 3, 4, 5]
-    v_y_coordinate = [1, 2, 3, 4, 5]
-    
-    df1 = pd.DataFrame({'Eje X': v_x_coordinate,
-                'Eje Y': v_y_coordinate})
-                        
-    col1.vega_lite_chart(df1, {
+
+    st.subheader("Medida de dispersión")
+
+    df = pd.read_csv("experiment.csv") 
+    st.write(df)         
+    st.subheader("Gráfica de dispersión")
+    st.vega_lite_chart(df, {
         'mark': {'type': 'circle', 'tooltip': True},
         'encoding': {
             'x': {'field': 'Eje X', 'type': 'quantitative'},
             'y': {'field': 'Eje Y', 'type': 'quantitative'},
         },
     })
-    col1.subheader("Medida")
-    image = Image.open('opencv0.png')
-    st.image(image, caption='Imagen de la lectura de datos')
-
-    col2.subheader("Tabla de datos")
-    col2.write(data)
+    
+    # image = Image.open('opencv0.png')
+    # st.image(image, caption='Imagen de la lectura de datos')
