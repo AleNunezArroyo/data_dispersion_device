@@ -63,21 +63,15 @@ if st.session_state.create == 1:
     st.header('Laboratorio número: '+ str(number) +' - Fecha: '+str(d))
     
     # Leer dato
-    print(st.session_state.init)
-    if (st.session_state.init%2 == 0):
-        print("el pepe")
+    # print(st.session_state.init)
         # while(st.session_state.init % 2 == 0):
     # else:
     #     import two_aruco_circle
     #     print (two_aruco_circle.state_dif_line, 'eliminado')
     #     del (two_aruco_circle.state_dif_line)
         
-        
     # elpepe = detector.value_out(st.session_state.init)
     # print(elpepe)
-    
-
-
 
     st.subheader("Medida de dispersión")
 
@@ -91,6 +85,7 @@ if st.session_state.create == 1:
             'y': {'field': 'Eje Y', 'type': 'quantitative'},
         },
     })
-    
-    # image = Image.open('opencv0.png')
-    # st.image(image, caption='Imagen de la lectura de datos')
+    st.subheader("Imagen de dispersión")
+    for c in range (len(df)):
+        image = Image.open('lab'+str(c+1)+'.png')
+        st.image(image, caption='Dispersión dato: '+str(c+1))

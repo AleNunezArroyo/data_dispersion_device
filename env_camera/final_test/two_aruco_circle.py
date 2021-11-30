@@ -179,6 +179,8 @@ while(bool_v):
                         special_conter += 1
                         # print("entra condicion")
                         # cv2.putText(img, "Diferencia {} cm".format(round(dif_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
+                        cv2.line(img, (x_0, y_0), (x_1, y_1), (255, 0, 0), 2)
+                        cv2.circle(img, (int(centro_total_x), int(centro_total_y)), 6, (0, 0, 255), -1)
                         cv2.imwrite('lab'+str(special_conter)+'.png', circles_im)
                         state_dif_line = dif_line
                         v_medium_center_circle_x.append(medium_center_circle_x)
@@ -205,9 +207,9 @@ while(bool_v):
 
     # handler to press the "q" key to exit the program
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        print(v_medium_center_circle_x)
-        print(v_medium_center_circle_y)
-        print(v_dis)
+        # print(v_medium_center_circle_x)
+        # print(v_medium_center_circle_y)
+        # print(v_dis)
         df1 = pd.DataFrame({'Eje X': v_medium_center_circle_x,
             'Eje Y': v_medium_center_circle_y, 
             'Distancia del centro': v_dis})
