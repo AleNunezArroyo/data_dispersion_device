@@ -3,7 +3,8 @@ import cv2
 # from object_detector import *
 from circle_detector import *
 import numpy as np
-import streamlit as st
+import time
+
 
 # Load the dictionary that was used to generate the markers.
 # There's different aruco marker dictionaries, this code uses 6x6
@@ -27,11 +28,22 @@ bool_v = True
 fun_counter = 0 
 (mark_counter) = 0
 
+state_dif_line = 0 
 while(bool_v):
 
     # creates an "img" var that takes in a camera frame
     _, img = camera.read()
+    ## convert to hsv
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    lower_range = np.array([61, 48, 116])
+    upper_range = np.array([94, 186, 214])
+        
+    ## mask of green (36,0,0) ~ (70, 255,255)
+    mask1 = cv2.inRange(hsv, lower_range, upper_range)
+    
     img_circle = img
+    
     # Convert to grayscale
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -97,11 +109,20 @@ while(bool_v):
                 
             circles_im = np.copy(img_circle)
             # contours = detector.detect_objects(img)
+            cv2.imshow('frame', img) 
+            # cv2.imshow('mask1', mask1)
+            
+            centro_total_x = int((x_0 + x_1) / 2.0)
+            centro_total_y = int((y_0 + y_1) / 2.0)
+
+            diagonal_line = ( ( ((x_0 - x_1)**2) + ((y_0 - y_1)**2) ) ** (1/2)) / pixel_cm_ratio
+                
+            cv2.line(img, (x_0, y_0), (x_1, y_1), (255, 0, 0), 2)
+            cv2.circle(img, (int(centro_total_x), int(centro_total_y)), 6, (0, 0, 255), -1)
             
             # the code works when detec a circle 
             try: 
-                circles = detector.circle_detector(img_circle)
-                cv2.imshow('img_circle', img_circle) 
+                circles = detector.circle_detector(mask1)
                 medium_center_circle_x = 0
                 medium_center_circle_y = 0
                 counter = 0 
@@ -115,41 +136,54 @@ while(bool_v):
                     medium_center_circle_x = circle[0] + medium_center_circle_x
                     medium_center_circle_y = circle[1] + medium_center_circle_y
                 
-                cv2.imshow('circles_im', circles_im) 
+                # cv2.imshow('circles_im', circles_im) 
 
                 medium_center_circle_x = medium_center_circle_x/counter
                 medium_center_circle_y = medium_center_circle_y/counter
                 # Draw space:
-                centro_total_x = int((x_0 + x_1) / 2.0)
-                centro_total_y = int((y_0 + y_1) / 2.0)
+                # centro_total_x = int((x_0 + x_1) / 2.0)
+                # centro_total_y = int((y_0 + y_1) / 2.0)
 
-                diagonal_line = ( ( ((x_0 - x_1)**2) + ((y_0 - y_1)**2) ) ** (1/2)) / pixel_cm_ratio
+                # diagonal_line = ( ( ((x_0 - x_1)**2) + ((y_0 - y_1)**2) ) ** (1/2)) / pixel_cm_ratio
 
                 dif_line = ( ( ((centro_total_x - medium_center_circle_x)**2) + ((centro_total_y - medium_center_circle_y)**2) ) ** (1/2)) / pixel_cm_ratio
 
                 # print("center x", medium_center_circle_x, "center y", medium_center_circle_y, "distancia", dif_line)
                 # print("center circle: ", centro_total_x, centro_total_y)
                 # Center circle 
-                cv2.circle(img, (int(centro_total_x), int(centro_total_y)), 6, (0, 0, 255), -1)
                 # Put value of detection
                 # cv2.putText(img, "Width {} cm".format(round(object_width, 1)), (int(cX - 100), int(cY - 20)), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
                 # cv2.putText(img, "Height {} cm".format(round(object_height, 1)), (int(cX - 100), int(cY + 15)), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
                 # cv2.putText(img, "Diagonal {} cm".format(round(diagonal_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
-                cv2.putText(img, "Diferencia {} cm".format(round(dif_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
-
-                cv2.line(img, (x_0, y_0), (x_1, y_1), (255, 0, 0), 2)
+                #**************************
+                # cv2.circle(img, (int(centro_total_x), int(centro_total_y)), 6, (0, 0, 255), -1)
+                # cv2.putText(img, "Diferencia {} cm".format(round(dif_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
+                # cv2.line(img, (x_0, y_0), (x_1, y_1), (255, 0, 0), 2)
+                #**************************
+                
                 # cv2.line(img, (centro_total_x, centro_total_y), (medium_center_circle_x, medium_center_circle_y), (255, 0, 0), 2)
                 # Draw the center of aruko marker
                 # cv2.circle(img, (cX, cY), 4, (0, 0, 255), -1)
-                if ((centro_total_x > 300 and centro_total_x < 320) and (centro_total_y > 244 and centro_total_y < 264)):
+                if ((centro_total_x > 300 and centro_total_x < 350) and (centro_total_y > 240 and centro_total_y < 264)):
                     if fun_counter == 2:
-                        print("entra condicion")
+                        # print("entra condicion")
+                        # cv2.putText(img, "Diferencia {} cm".format(round(dif_line, 1)), (300, 400), cv2.FONT_HERSHEY_PLAIN, 2, (100, 200, 0), 2)
                         cv2.imwrite('opencv'+'0'+'.png', circles_im)
+                        state_dif_line = dif_line
+                        print(state_dif_line)
+                        time.sleep(7)
+                        if cv2.waitKey(1) & 0xFF == ord('q'):
+                            break
+                        # print(fun_counter)
                         fun_counter += 1
+                        # bool_v = False
+                        break
                     else: 
                         fun_counter += 1   
             except:
                 bool_v 
+                fun_counter = 0 
+                
 
     # handler to press the "q" key to exit the program
     if cv2.waitKey(1) & 0xFF == ord('q'):

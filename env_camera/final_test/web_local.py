@@ -1,3 +1,15 @@
+# import the OpenCV library for computer vision
+import cv2
+# from object_detector import *
+from circle_detector import *
+from two_aruco_fun import *
+import numpy as np
+import streamlit as st
+
+import cv2
+import streamlit as st
+
+# *************** [GUI] ***************
 import urllib.request
 import streamlit as st
 import datetime
@@ -5,6 +17,8 @@ import numpy as np
 from PIL import Image
 import cv2
 import pandas as pd
+detector = response_code_python()
+# print (two_aruco_circle.x)
 
 # Connec to internet
 state = False
@@ -42,33 +56,32 @@ number = st.sidebar.number_input('Número de laboratorio', 1, 10, 1,1)
 if st.sidebar.button('Crear laboratorio', key = '0'):
     st.session_state.create = 1
     st.sidebar.write('Laboratorio creado')
-    
+# *************************************
 
 if st.session_state.create == 1:
     # Título
     st.header('Laboratorio número: '+ str(number) +' - Fecha: '+str(d))
-    # Show image 
-    # FRAME_WINDOW.image(frame)
     
     # Leer dato
     init_lecture = st.button('Tomar muestra', key = '1')
+    print(st.session_state.init)
     if (init_lecture):
-        FRAME_WINDOW = st.image([])
-        print('entra a init_lecture')
         st.session_state.init += 1
         st.write('Esperando caída '+str(st.session_state.init)+' de esfera: ...')
-        # Camera widget
-        camera = cv2.VideoCapture(0)
-        run = st.checkbox('Run', key = '10')
-        while run:
-            print('entra a while')
-            _, frame = camera.read()
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            FRAME_WINDOW.image(frame)
-        else:
-            print('else')
-            st.write('Stopped')
-
+        st.write('Esperando caída '+str(st.session_state.init)+' de esfera: ...')
+    if (st.session_state.init%2 == 0):
+        import two_aruco_circle
+        print (two_aruco_circle.state_dif_line)
+        # while(st.session_state.init % 2 == 0):
+    # else:
+    #     import two_aruco_circle
+    #     print (two_aruco_circle.state_dif_line, 'eliminado')
+    #     del (two_aruco_circle.state_dif_line)
+        
+        
+    # elpepe = detector.value_out(st.session_state.init)
+    # print(elpepe)
+    
     col1, col2 = st.columns([1, 1])
     data = np.random.randn(6, 2)
 
@@ -88,13 +101,8 @@ if st.session_state.create == 1:
         },
     })
     col1.subheader("Medida")
-    image = Image.open('/home/ale/Documents/GitHub/data_dispersion_device/env_camera/image_live.png')
+    image = Image.open('opencv0.png')
     st.image(image, caption='Imagen de la lectura de datos')
 
     col2.subheader("Tabla de datos")
     col2.write(data)
-    
-
-
-
-
