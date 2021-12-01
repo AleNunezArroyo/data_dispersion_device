@@ -1,13 +1,22 @@
-# *************** [GUI] ***************
+# *************** [GUI] ****************
 import urllib.request
 import streamlit as st
 import datetime
 import numpy as np
 from PIL import Image
-import cv2
 import pandas as pd
-# *************************************
-
+# **************************************
+# ************* [Database] *************
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+import datetime
+from datetime import timezone
+if not firebase_admin._apps:
+    cred = credentials.Certificate('/home/ale/Downloads/firestore-key.json')
+    firebase_admin.initialize_app(cred)
+db = firestore.client()
+# **************************************
 # Connec to internet
 state = False
 def connect(host='http://google.com'):
@@ -73,6 +82,7 @@ if st.session_state.create == 1:
             'y': {'field': 'Eje Y', 'type': 'quantitative'},
         },
     })
+    # print(len(df.loc[:,"Eje X"]))
     st.subheader("Imagen de dispersión")
     for c in range (len(df)):
         image = Image.open('lab'+str(c+1)+'.png')
@@ -82,3 +92,14 @@ if st.session_state.create == 1:
         if st.button('Cargar la información a internet', key = '1'):
             st.session_state.init = 1
             st.write('Laboratorio guardado en internet')
+            frank_ref = db.collection('laboratory').document(str(d))
+            for c in range (len(df)):
+                frank_ref.set({
+                    str(number): {
+                        'data'+str(c+1): {
+                            'x_coordinate': df.loc[c,"Eje X"],
+                            'y_coordinate': df.loc[c,"Eje Y"],
+                            'distance_setpoint': df.loc[c,"Distancia del centro"],
+                        },
+                    },
+                }, merge=True)
