@@ -10,6 +10,11 @@ import datetime
 from PIL import Image
 import pandas as pd
 
+
+#****************************
+
+#****************************
+
 # Load the dictionary that was used to generate the markers.
 # There's different aruco marker dictionaries, this code uses 6x6
 # dictionary = cv2.aruco.Dictionary_get(cv2.aruco.DICT_5X5_50)
@@ -120,7 +125,7 @@ while(bool_v):
             circles_im = np.copy(img_circle)
             # contours = detector.detect_objects(img)
             cv2.imshow('frame', img) 
-            # cv2.imshow('mask1', mask1)
+            cv2.imshow('mask1', mask1)
             
             centro_total_x = int((x_0 + x_1) / 2.0)
             centro_total_y = int((y_0 + y_1) / 2.0)
@@ -192,11 +197,12 @@ while(bool_v):
                             'Distancia del centro': v_dis})
                         df1.to_csv('experiment.csv', index=False)
                         
-                        time.sleep(7)
+                        
                         if cv2.waitKey(1) & 0xFF == ord('q'):
                             break
                         # print(fun_counter)
                         fun_counter += 1
+                        time.sleep(7)
                         # bool_v = False
                         break
                     else: 
@@ -210,10 +216,10 @@ while(bool_v):
         # print(v_medium_center_circle_x)
         # print(v_medium_center_circle_y)
         # print(v_dis)
-        df1 = pd.DataFrame({'Eje X': v_medium_center_circle_x,
-            'Eje Y': v_medium_center_circle_y, 
-            'Distancia del centro': v_dis})
-        df1.to_csv('experiment.csv')
+        # df1 = pd.DataFrame({'Eje X': v_medium_center_circle_x,
+        #     'Eje Y': v_medium_center_circle_y, 
+        #     'Distancia del centro': v_dis})
+        # df1.to_csv('experiment.csv')
         break
 
 # When everything done, release the capture

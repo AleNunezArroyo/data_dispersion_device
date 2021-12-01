@@ -1,14 +1,3 @@
-# import the OpenCV library for computer vision
-import cv2
-# from object_detector import *
-from circle_detector import *
-from two_aruco_fun import *
-import numpy as np
-import streamlit as st
-
-import cv2
-import streamlit as st
-
 # *************** [GUI] ***************
 import urllib.request
 import streamlit as st
@@ -17,8 +6,7 @@ import numpy as np
 from PIL import Image
 import cv2
 import pandas as pd
-detector = response_code_python()
-# print (two_aruco_circle.x)
+# *************************************
 
 # Connec to internet
 state = False
@@ -89,3 +77,8 @@ if st.session_state.create == 1:
     for c in range (len(df)):
         image = Image.open('lab'+str(c+1)+'.png')
         st.image(image, caption='Dispersión dato: '+str(c+1))
+    
+    if state == True:
+        if st.button('Cargar la información a internet', key = '1'):
+            st.session_state.init = 1
+            st.write('Laboratorio guardado en internet')
