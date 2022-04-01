@@ -52,6 +52,7 @@ number = st.sidebar.number_input('Número de laboratorio', 1, 10, 1,1)
 
 if st.sidebar.button('Crear laboratorio', key = '0'):
     st.session_state.create = 1
+    import two_aruco_circle
     st.sidebar.write('Laboratorio creado')
 # *************************************
 
